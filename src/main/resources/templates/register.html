@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="navbar">
+
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/about}">About</a>
+            <a th:href="@{/contact}">Contact</a>
+            <a th:href="@{/login}">Login</a>
+
+        </div>
+        
+        <form action="" method="post">
+            <h2>Register</h2>
+            <label for="username">Username</label>
+            <br><br>
+            <input type="text" placeholder="Username" required>
+            <br><br>
+            <label for="email">Email</label>
+            <br><br>
+            <input type="email" placeholder="Email" required>
+            <br><br>
+            <label for="password">Password</label>
+            <br><br>
+            <input type="password" placeholder="Password" required>
+            <br><br><br>
+            <button type="submit">Register</button>
+
+        </form>
+    </div>
+
+
+</body>
+
+</html>
