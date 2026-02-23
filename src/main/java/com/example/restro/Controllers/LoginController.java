@@ -1,6 +1,5 @@
 package com.example.restro.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;  // ✅ CORRECTimport org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,11 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.restro.Security.JwtUtil;
-import com.example.restro.services.CustomUserDetailService;
-import com.example.restro.services.CustomUserDetails;
+import com.example.restro.Security.services.CustomUserDetailService;
+import com.example.restro.Security.services.CustomUserDetails;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 
@@ -81,7 +79,7 @@ public class LoginController {
    }
 
    @GetMapping("/logout")
-    public String logout(HttpServletRequest request,
+    public String logout(
                         HttpServletResponse response) {
 
         // Clear Spring Security context
@@ -95,7 +93,7 @@ public class LoginController {
         response.addCookie(cookie);
 
         // Redirect to home page
-        return "/";
+        return "redirect:/login";
     }
     
     

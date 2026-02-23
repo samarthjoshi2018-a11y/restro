@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.restro.services.CustomUserDetailService;
-import com.example.restro.services.CustomUserDetails;
+import com.example.restro.Security.services.CustomUserDetailService;
+import com.example.restro.Security.services.CustomUserDetails;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

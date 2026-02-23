@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 
 import org.springframework.stereotype.Component;
 
-import com.example.restro.services.CustomUserDetails;
+import com.example.restro.Security.services.CustomUserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
