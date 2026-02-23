@@ -6,8 +6,9 @@ import java.util.Map;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.example.restro.services.CustomUserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,17 +23,17 @@ public class JwtUtil {
     String secretkey="mysecret569dkfjidjfiejifijeiffji";
     SecretKey key = Keys.hmacShaKeyFor(secretkey.getBytes());
         
+
         
-    public String generateToken(String email,String userType){
+    public String generateToken(CustomUserDetails userdetails){
 
         Map<String,Object> claims=new HashMap<>();
 
-        
-        claims.put("userType", userType);
+        claims.put("userType", userdetails.getUserType());
 
         return Jwts.builder()
                     .setClaims(claims)
-                    .setSubject(email)
+                    .setSubject(userdetails.getUsername())
                     .setIssuedAt(new Date())
                     .setExpiration(new Date(System.currentTimeMillis()+1000*60*60))
                     .signWith(key,SignatureAlgorithm.HS256)
@@ -60,7 +61,7 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
-    public Boolean validateToken(String token,UserDetails ud){
+    public Boolean validateToken(String token,CustomUserDetails ud){
         String email=extractEmail(token);
         return (ud.getUsername().equals(email) && !isTokenExpired(token));
     }

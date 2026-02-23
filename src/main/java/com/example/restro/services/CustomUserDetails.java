@@ -1,12 +1,11 @@
 package com.example.restro.services;
 
-import java.util.Collections;
-import  java.util.List;
-import org.jspecify.annotations.Nullable;
+import java.util.Collection;
+import  java.util.Collections;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.Collection;
 
 
 public class CustomUserDetails  implements  UserDetails{
@@ -24,7 +23,7 @@ public class CustomUserDetails  implements  UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(userType));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_"+userType));
     }
 
     @Override

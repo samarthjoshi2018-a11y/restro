@@ -26,29 +26,16 @@
                 Invalid email or password. Please try again.
                 </div>
         
-                <form th:action="@{/adminlogin}" method="post">
-                    <h2>Admin Login</h2>
-                    <label for="adminemail" >Email</label>
-                    <input type="email" name="adminemail" placeholder="Enter email" required>
+                <form th:action="@{/login}" method="post">
+                    <h2>Login</h2>
+                    <label for="email" >Email</label>
+                    <input type="email" name="email" placeholder="Enter email" required>
                     <br><br>
-                    <label for="adminpassword">Password</label>
-                    <input type="password" name="adminpassword" placeholder="Password" required>
-                    <br><br>
-                    <button type="submit">Login</button>
-                </form>
-            </div>
-            <div class="user">
-                <form th:action="@{/customerlogin}" method="post">
-                    <h2>User Login</h2>
-                    <label for="customeremail">Customer Email</label>
-                    <input type="email" name="customeremail" placeholder="enter email" required>
-                    <br><br>
-                    <label for="customerpassword">Password</label>
-                    <input type="password" name="customerpassword" nameplaceholder="Password" required>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" placeholder="Password" required>
                     <br><br>
                     <button type="submit">Login</button>
                 </form>
-                <a th:href="@{/register}">Click here to register</a>
             </div>
         </div>
         

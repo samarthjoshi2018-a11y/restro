@@ -15,7 +15,9 @@ public class Admin extends User{
     
     private long salary;
 
-    
+    public Admin(){super();}
+
+
     public Admin(String email,String pass){
         super(email,pass);
     }
