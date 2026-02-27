@@ -11,17 +11,29 @@
 <body>
 
     <div class="login-container">
-        <div class="navbar">
+         <div class="navbar">
 
-            <a th:href="@{/}">Home</a>
+           <a th:href="@{/}">Home</a>
             <a th:href="@{/about}">About</a>
             <a th:href="@{/categories}">Categories</a>
-<a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
-<a sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+
+            <div sec:authorize="isAuthenticated()">
+                        <a th:href="@{/logout}">Logout</a>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}">Login</a>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/additem}">Insert Item</a>
+            </div>    
         </div>
         <div class="forms">
             <div class="admin">
 
+                <div th:if="${message}" style="color:red; text-align:center; margin:10px;">
+                <p th:text="${message}"></p>
+                </div>
+[]
                 <div th:if="${error == 'true'}" style="color:red; text-align:center; margin:10px;">
                 Invalid email or password. Please try again.
                 </div>
@@ -35,6 +47,10 @@
                     <input type="password" name="password" placeholder="Password" required>
                     <br><br>
                     <button type="submit">Login</button>
+
+                    <div style="margin-top: 15px; color: #545050;">
+                        <span>Don't have an account?</span>
+                        <a th:href="@{/register}">Register here</a>
                 </form>
             </div>
         </div>

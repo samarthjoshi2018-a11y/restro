@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+
+<body>
+
+    <div class="display_container">
+        <div class="navbar">
+
+           <a th:href="@{/}">Home</a>
+            <a th:href="@{/about}">About</a>
+            <a th:href="@{/categories}">Categories</a>
+
+            <div sec:authorize="isAuthenticated()">
+                        <a th:href="@{/logout}">Logout</a>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}">Login</a>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/additem}">Insert Item</a>
+            </div>   
+        </div>
+            <h1 th:text="${categoryname.toUpperCase()}+' CUISINE'"></h1>
+
+
+        <div class="display_content" >
+            
+                <div class="display_items" th:each="item : ${items}">
+                    <img th:src="${item.url}" alt="Item Image">
+                    <h4 th:text="${item.itemName.toUpperCase()}" style="color: black;"></h4>
+                    <p><span th:text="'Rs ' + ${item.amount}" style="color: black;"></span></p>
+                    
+                </div>
+
+
+                
+        </div>
+         <div class="btn">
+                    <a th:href="@{/cart}">Go to Cart</a>
+                    <h2>View Cart</h2>
+                </div>
+
+            
+
+                
+    </div>
+
+
+</body>
+
+</html>

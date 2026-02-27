@@ -1,5 +1,6 @@
 package com.example.restro.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,9 +11,12 @@ public class Item {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     int itemId;
+    @Column(nullable=false, unique=true)
     String itemName;
     int amount;
     String category;
+    @Column(length=1000)
+    String url;
 
     public int getItemId() {
         return itemId;
@@ -37,6 +41,12 @@ public class Item {
     }
     public void setCategory(String category) {
         this.category = category;
+    }
+    public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 

@@ -33,11 +33,18 @@ public class SecurityConfig {
             .cors(cors->cors.disable())
             .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
              .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.GET, "/", "/login", "/categories", "/style.css").permitAll()
-                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                .requestMatchers(HttpMethod.GET, "/", "/login","/register", "/categories", "/style.css").permitAll()
+                .requestMatchers(HttpMethod.POST, "/login","/register").permitAll()
+                .requestMatchers("/categories/**","/orderupdate/cart").hasRole("CUSTOMER")
+                .requestMatchers(HttpMethod.POST, "/orderupdate/**").hasRole("CUSTOMER")
+                .requestMatchers(HttpMethod.GET, "/additem").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/additem").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form->form.disable())
+            .exceptionHandling(ex->ex.authenticationEntryPoint((request, response, authException) -> {
+                response.sendRedirect("/login");
+            }))
             .addFilterBefore(jwtauthfilter,UsernamePasswordAuthenticationFilter.class);
 
             return  http.build();

@@ -19,19 +19,31 @@
 
         </div>
         
-        <form action="" method="post">
+        <form th:action="@{/register}" th:object="${customer}" method="post">
             <h2>Register</h2>
+
+            <div th:if="${error}" style="color:red; text-align:center; margin:10px;">
+                <p th:text="${error}"></p>
+                </div>
+
             <label for="username">Username</label>
             <br><br>
-            <input type="text" placeholder="Username" required>
+            <input type="text" th:field="*{name}" placeholder="Username" required>
             <br><br>
             <label for="email">Email</label>
             <br><br>
-            <input type="email" placeholder="Email" required>
+            <input type="email" th:field="*{email}" placeholder="Email" required>
+            <br><br>
+            <label for="phone">Phone</label>
+            <p th:if="${#fields.hasErrors('phone')}"
+                th:errors="*{phone}" style="color: red;">
+            </p>
+            <br><br>
+            <input type="text" th:field="*{phone}" placeholder="Phone" required>
             <br><br>
             <label for="password">Password</label>
             <br><br>
-            <input type="password" placeholder="Password" required>
+            <input type="password" th:field="*{password}" placeholder="Password" required>
             <br><br><br>
             <button type="submit">Register</button>
 

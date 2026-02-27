@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add item</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="item-container">
+         <div class="navbar">
+
+           <a th:href="@{/}">Home</a>
+            <a th:href="@{/about}">About</a>
+            <a th:href="@{/categories}">Categories</a>
+
+            <div sec:authorize="isAuthenticated()">
+                        <a th:href="@{/logout}">Logout</a>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}">Login</a>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/additem}">Insert Item</a>
+            </div>    
+        </div>
+        <div class="forms">
+            <div class="admin">
+
+                <div th:if="${message}">
+                    <p th:text="${message}" style="color: green;"></p>
+                </div>
+
+        
+                <form th:action="@{/additem}" th:object="${item}" method="post">
+
+                    <h2>Add Item</h2>
+
+                    <label>Name</label>
+                    <input type="text" th:field="*{itemName}" placeholder="Enter item name" required>
+
+                    <label>Amount</label>
+                    <input type="number" th:field="*{amount}" placeholder="Enter amount" required>
+
+                    <label>Category</label>
+                    <select th:field="*{category}" required>
+                        <option value="" disabled selected>Select category</option>
+                        <option value="north-indian">North Indian</option>
+                        <option value="south-indian">South Indian</option>
+                        <option value="sweets">Sweets</option>
+                        <option value="ice-creams">Ice Creams</option>
+                        <option value="juices">Juices</option>
+
+                    </select>
+                    <label>Image URL</label>
+                    <input type="text" th:field="*{url}" placeholder="Enter image URL" required>
+
+                    <button type="submit">Add Item</button>
+
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</body>
+
+</html>

@@ -18,8 +18,8 @@ public class Admin extends User{
     public Admin(){super();}
 
 
-    public Admin(String email,String pass){
-        super(email,pass);
+    public Admin(String name,String email,String pass){
+        super(name,email,pass);
     }
 
     public String getPhone() {

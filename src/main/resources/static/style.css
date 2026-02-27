@@ -68,8 +68,14 @@ background-position: center;
     height: 100vh;
     text-align: center;
     width: 100vw;
-    color:white;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-weight: 200;
 
+}
+.categories h4{
+    color: white;
 }
 .categories img{
     width: 300px;
@@ -81,10 +87,7 @@ background-position: center;
 .categories :hover{
     transform: scale(1.1);
 }
-.categories{
-        background-size: cover;
-        background-position: center;
-}
+
 
 .main-categories{
     display: flex;
@@ -190,3 +193,71 @@ background-position: center;
     background-color: rgb(217, 53, 53);
 
 }
+
+.item-container{
+     display: flex;
+   
+    height: 100vh;
+    flex-direction: column; 
+    background-image: linear-gradient(rgb(23, 21, 21) 0.3%, rgba(91, 47, 47, 0.5)99%), url('https://plus.unsplash.com/premium_photo-1661954531673-440d23a6eb79?q=80&w=996&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); 
+    background-size: cover;
+    background-position: center;
+
+}
+
+.display_container{
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+    padding: 20px;
+    background-image: linear-gradient(rgb(23, 21, 21) 0.3%, rgba(91, 47, 47, 0.5)99%), url('https://assets.vogue.com/photos/6352ccb841ea2bd565be085f/master/w_2560%2Cc_limit/GettyImages-1223580360.jpg'); 
+    height: 150vh;
+    text-align: center;
+    width: 100vw;
+    color: pink;
+    background-size: cover;
+}
+.display_container h1{
+    font-size: 40px;
+    color: white;
+    font-family: "Playwrite NZ Basic", cursive;
+    font-optical-sizing: auto;
+    font-weight: 200;
+}
+.display_container p{
+    font-size: 20px;
+    color: white;
+    font-family: "Playwrite NZ Basic", cursive;
+    font-optical-sizing: auto;
+    font-weight: 200;
+}
+.display_content{
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.display_items{
+    background-color: rgb(217, 136, 136);
+    opacity: 0.8;
+    height: 400px;
+    width: 300px;
+    overflow: hidden;
+    border-radius: 10px;
+    color: black;
+}
+
+.display_items img{
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.display_content :hover{
+    transform: scale(1.1);
+}
+

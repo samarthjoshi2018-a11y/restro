@@ -11,28 +11,33 @@
 <body>
     <div class="main-categories">
 
-        <div class="navbar">
-            <a th:href="@{/}">Home</a>
+         <div class="navbar">
+
+           <a th:href="@{/}">Home</a>
             <a th:href="@{/about}">About</a>
             <a th:href="@{/categories}">Categories</a>
+
             <div sec:authorize="isAuthenticated()">
-                <a th:href="@{/logout}">Logout</a>
+                        <a th:href="@{/logout}">Logout</a>
             </div>
             <div sec:authorize="!isAuthenticated()">
-                <a th:href="@{/login}">Login</a>
+                        <a th:href="@{/login}">Login</a>
             </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/additem}">Insert Items</a>
+            </div>    
         </div>
 
         
         <div class="categories">
             <div class="north-indian">
-                <a th:href="@{/north-indian}">
+                <a th:href="@{categories/north-indian}">
                 <img src="https://plus.unsplash.com/premium_photo-1712678280695-7525b7bf50d0?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="">
                 <h4>North Indian</h4>
             </div>
             <div class="sweets">
-                <a th:href="@{/sweets}">
+                <a th:href="@{categories/sweets}">
 
                 <img src="https://images.unsplash.com/photo-1695568180070-8b5acead5cf4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="">
@@ -41,7 +46,7 @@
 
 
             <div class="south-indian">
-                <a th:href="@{/south-indian}">
+                <a th:href="@{categories/south-indian}">
 
                 <img src="https://images.unsplash.com/photo-1665660710687-b44c50751054?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="">
@@ -50,7 +55,7 @@
 
             <div class="ice-creams">
                 
-                <a th:href="@{/ice-creams}">
+                <a th:href="@{categories/ice-creams}">
 
                 <img src="https://images.unsplash.com/photo-1633933358116-a27b902fad35?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="">
@@ -58,7 +63,7 @@
             </div>
 
             <div class="juices">
-                <a th:href="@{/juices}">
+                <a th:href="@{categories/juices}">
 
                 <img src="https://plus.unsplash.com/premium_photo-1663091544172-794c537af00c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="">

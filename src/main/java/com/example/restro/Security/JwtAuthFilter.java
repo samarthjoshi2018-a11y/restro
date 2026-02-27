@@ -29,56 +29,51 @@ public class JwtAuthFilter extends OncePerRequestFilter{
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+        throws ServletException, IOException {
 
-        String token=null;
-        String useremail=null;
-        System.out.println("filter request");
+    String token = null;
+    String useremail = null;
+    String requestURI = request.getRequestURI();
 
-        
-        if(request.getCookies()!=null){
-            for(Cookie cookie : request.getCookies()){
-                if(cookie.getName().equals("jwt")){
-                    token=cookie.getValue();
-                }
+   
+
+    if (request.getCookies() != null) {
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("jwt")) {
+                token = cookie.getValue();
+                System.out.println("JWT token found for: " + requestURI);
             }
-        }   
-
-
-
-        try{
-
-
-            if(token!=null && SecurityContextHolder.getContext().getAuthentication()==null){
-                useremail=jutil.extractEmail(token);
-
-                UserDetails ud=customuds.loadUserByUsername(useremail);
-
-                if(jutil.validateToken(token,(CustomUserDetails)ud)){
-                    UsernamePasswordAuthenticationToken auth=new UsernamePasswordAuthenticationToken(useremail, null,ud.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                }
-            }
-
-
-        }catch(Exception e){
-            System.out.println("jwt invalid: "+e.getMessage());
-
         }
-
-
-
-
-       
-
-        filterChain.doFilter(request, response);
-
-        
-    
+    } else {
+        System.out.println("No cookies for: " + requestURI);
     }
 
+    try {
+        if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            useremail = jutil.extractEmail(token);
+            System.out.println("Email from token for " + requestURI + ": " + useremail);
 
+            UserDetails ud = customuds.loadUserByUsername(useremail);
+            System.out.println("User loaded for " + requestURI + " with roles: " + ud.getAuthorities());
+
+            if (jutil.validateToken(token, (CustomUserDetails) ud)) {
+                UsernamePasswordAuthenticationToken auth = 
+                    new UsernamePasswordAuthenticationToken(useremail, null, ud.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            } else {
+                System.out.println("Token validation failed for: " + requestURI);
+            }
+        } else {
+            System.out.println("No valid token for: " + requestURI);
+        }
+    } catch (Exception e) {
+        System.out.println("JWT error for " + requestURI + ": " + e.getMessage());
+    }
+
+    filterChain.doFilter(request, response);
+    
+}
     
 
 }
