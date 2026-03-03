@@ -49,7 +49,7 @@ public class OrderService {
 
 
 
-    public int getTotal(int cid) {
+    public double getTotal(int cid) {
         return fin.getTotal(cid);
     }
 

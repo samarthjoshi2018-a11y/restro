@@ -31,7 +31,7 @@ public interface feighInterface {
 
 
     @GetMapping("/orders/gettotal/{cid}")
-    public int getTotal(@PathVariable int cid);
+    public double getTotal(@PathVariable int cid);
 
     @GetMapping("/orders/returncart/{cid}")
     public List<OrderInfo> getCart(@PathVariable int cid);

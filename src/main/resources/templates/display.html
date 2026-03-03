@@ -27,7 +27,7 @@
                         <a th:href="@{/additem}">Insert Item</a>
             </div>   
         </div>
-            <h1 th:text="${categoryname.toUpperCase()}+' CUISINE'"></h1>
+            <h1 th:text="${categoryname.toUpperCase()}+' DISHES'"></h1>
 
 
         <div class="display_content" >
@@ -62,14 +62,16 @@
 
 
                 </div>
+                <div class="view_button">
 
+                    <a th:href="@{/orderupdate/cart}">
+                    <button class="btn">View Cart</button>
+                    </a>
+                </div>
 
                 
         </div>
-         <div class="btn">
-                    <a th:href="@{/cart}">Go to Cart</a>
-                    <h2>View Cart</h2>
-                </div>
+        
 
             
 

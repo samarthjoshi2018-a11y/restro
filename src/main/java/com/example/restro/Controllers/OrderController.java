@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.restro.feign.feighInterface;
 import com.example.restro.models.OrderInfo;
 import com.example.restro.orderservice.OrderService;
 import com.example.restro.repositories.CustomerRepo;
 import com.example.restro.repositories.ItemRepo;
+
 
 
 @Controller
@@ -61,7 +63,7 @@ public class OrderController {
         }
     
         @PostMapping("/decrementitem/{itemId}")
-        public String decrementItem( @PathVariable int itemId, Authentication auth) {
+        public String decrementItem( @PathVariable int itemId, Authentication auth ) {
             String email = auth.getName();
             int cid = crepo.findByEmail(email).getId();
             String message = os.decrementItem(cid, itemId);
@@ -77,13 +79,37 @@ public class OrderController {
         //     String message = os.deleteItem(cid, itemId);
         //     return "categories";
         // }
+        
+        
+        @PostMapping("/incrementincart/incrementitem/{itemId}")
+        public String incrementIteminCart( @PathVariable int itemId, Authentication auth) {
+            String email = auth.getName();
+            int cid = crepo.findByEmail(email).getId();
+            String message = os.incrementItem(cid, itemId);
+            System.out.println("increment item= "+ message);
+
+            return "redirect:/orderupdate/cart";
+        }
+    
+        @PostMapping("/decrementincart/decrementitem/{itemId}")
+        public String decrementItemInCart( @PathVariable int itemId, Authentication auth ) {
+            String email = auth.getName();
+            int cid = crepo.findByEmail(email).getId();
+            String message = os.decrementItem(cid, itemId);
+            System.out.println("message: "+message);
+            return "redirect:/orderupdate/cart";       
+        }
     
         @PostMapping("/placeorder")
-        public String placeOrder( Authentication auth) {
+        public String placeOrder( Authentication auth,RedirectAttributes redirectAttributes) {
             String email = auth.getName();
             int cid = crepo.findByEmail(email).getId();
             String message = os.placeOrder(cid);
             System.out.println("order placed: "+ message);
+            redirectAttributes.addFlashAttribute(
+                        "success_message",
+                        "Order confirmed. Thank you"
+                );            
             return "redirect:/categories";
         }
 
@@ -94,7 +120,7 @@ public class OrderController {
             List<OrderInfo> cartItems = os.getCart(cid);
 
             
-            int total=os.getTotal(cid);
+            double total=os.getTotal(cid);
             model.addAttribute("OrderInfo", cartItems);
             model.addAttribute("total",total);
             return "cart";

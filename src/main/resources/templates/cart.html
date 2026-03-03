@@ -33,37 +33,40 @@
 
             <h1>View Your Cart</h1>
         
-            <table>
-            <tr class="header">
-                <th>Item Name</th>
-                <th>Quantity</th>           
-                <th>Price</th>
-            </tr>
-            <tr th:each="info: ${OrderInfo}" >
-                <td th:text="${info.itemName}"></td>
+            <table class="item_list">
+                <tr class="header">
+                    <th>Item Name</th>
+                    <th>Quantity</th>           
+                    <th>Price</th>
+                </tr>
+                <tr th:each="info: ${OrderInfo}" >
+                    <td th:text="${info.itemName}"></td>
 
-                <td> 
-                    <form th:action="@{'/orderupdate/incrementitem/' + ${info.itemId}}" method="post">
-                        <button type="submit">+</button>
-                    </form>
-                     
-                    <span th:text="${info.quantity}">
+                    <td class="quantity_controls"> 
 
-                     <form th:action="@{'/orderupdate/decrementitem/' + ${info.itemId}}" method="post">
-                        <button type="submit">-</button>
-                    </form>                
+                        <form th:action="@{'/orderupdate/decrementincart/decrementitem/' + ${info.itemId}}" method="post">
+                            <button type="submit">-</button>
+                        </form>
+                        
+                        <span th:text="${info.quantity}"></span>
+
+
+                        <form th:action="@{'/orderupdate/incrementincart/incrementitem/' + ${info.itemId}}" method="post">
+                            <button type="submit">+</button>
+                        </form>     
+                    </td>           
+                         
+                        
+                    <td th:text="'Rs ' + ${info.price}"></td>                
                     
-                    
-                <td th:text="'Rs ' + ${info.price}"></td>                
-                
 
-            </tr>
+                </tr>
 
-            <tr>
-                <td><td><td><td th:text="|Total = ${total}|"></td></td></td></td>
-            </tr>
+                <tr>
+                    <td><td><td th:text="|Total = ${total}|"></td></td></td>
+                </tr>
         </table>
-        <form th:action="@{'/orderupdate/placeorder/'}" method="post">
+        <form th:action="@{'/orderupdate/placeorder'}" method="post">
                     <button type="submit">PLACE ORDER</button>
         </form>    
             
