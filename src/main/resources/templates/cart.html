@@ -7,14 +7,71 @@
     <title>Items</title>
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
-
 <body>
 
-    ]<div class="display_container">
+
+
+
+
+    <div class="cart_info">
         <div class="navbar">
 
            <a th:href="@{/}">Home</a>
+            <a th:href="@{/about}">About</a>
             <a th:href="@{/categories}">Categories</a>
+
+            <div sec:authorize="isAuthenticated()">
+                        <a th:href="@{/logout}">Logout</a>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}">Login</a>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/additem}">Insert Item</a>
+            </div>    
+        </div>
+
+            <h1>View Your Cart</h1>
+        
+            <table>
+            <tr class="header">
+                <th>Item Name</th>
+                <th>Quantity</th>           
+                <th>Price</th>
+            </tr>
+            <tr th:each="info: ${OrderInfo}" >
+                <td th:text="${info.itemName}"></td>
+
+                <td> 
+                    <form th:action="@{'/orderupdate/incrementitem/' + ${info.itemId}}" method="post">
+                        <button type="submit">+</button>
+                    </form>
+                     
+                    <span th:text="${info.quantity}">
+
+                     <form th:action="@{'/orderupdate/decrementitem/' + ${info.itemId}}" method="post">
+                        <button type="submit">-</button>
+                    </form>                
+                    
+                    
+                <td th:text="'Rs ' + ${info.price}"></td>                
+                
+
+            </tr>
+
+            <tr>
+                <td><td><td><td th:text="|Total = ${total}|"></td></td></td></td>
+            </tr>
+        </table>
+        <form th:action="@{'/orderupdate/placeorder/'}" method="post">
+                    <button type="submit">PLACE ORDER</button>
+        </form>    
+            
+    </div>
+   
+   
+    
+
 
 </body>
 

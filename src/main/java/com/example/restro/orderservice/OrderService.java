@@ -1,9 +1,13 @@
 package com.example.restro.orderservice;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.restro.feign.feighInterface;
+import com.example.restro.models.OrderInfo;
 import com.example.restro.repositories.ItemRepo;
 
 
@@ -39,6 +43,26 @@ public class OrderService {
 
     public String placeOrder(int cid) {
         return fin.placeOrder(cid);
+    }
+
+
+
+
+
+    public int getTotal(int cid) {
+        return fin.getTotal(cid);
+    }
+
+
+    public List<OrderInfo> getCart(int cid) {
+        List<OrderInfo> cartdetails= fin.getCart(cid);
+        if (cartdetails==null){
+            return new ArrayList<>();
+        }
+        for(OrderInfo info: cartdetails){
+            info.setItemName(irepo.findById(info.getItemId()).get().getItemName());
+        }
+        return cartdetails;
     }
 
 

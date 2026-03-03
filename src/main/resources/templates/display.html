@@ -10,7 +10,7 @@
 
 <body>
 
-    <div class="display_container">
+    <div class="cart_info">
         <div class="navbar">
 
            <a th:href="@{/}">Home</a>
@@ -32,11 +32,35 @@
 
         <div class="display_content" >
             
-                <div class="display_items" th:each="item : ${items}">
+                <div class="display_items" th:each="item : ${items}" >
+
                     <img th:src="${item.url}" alt="Item Image">
                     <h4 th:text="${item.itemName.toUpperCase()}" style="color: black;"></h4>
                     <p><span th:text="'Rs ' + ${item.amount}" style="color: black;"></span></p>
-                    
+
+                    <div th:if="${orderInfoMap[item.itemId]==null}">
+                        <form  th:action="@{'/orderupdate/addtocart/' + ${item.itemId}}" method="post">
+                            <button type="submit">Add to Cart</button>
+                        </form>
+                    </div>
+
+
+                    <div  th:if="${orderInfoMap[item.itemId]!=null}" class="quantity-controls">
+                        <form  th:action="@{'/orderupdate/decrementitem/' + ${item.itemId}}" method="post">
+                            <button type="submit">-</button>
+                        </form>
+                     
+                        <span th:text="${orderInfoMap[item.itemId].quantity}"></span>
+
+                        <form th:action="@{'/orderupdate/incrementitem/' + ${item.itemId}}" method="post">
+                            <button type="submit">+</button>
+                        </form>                
+                        
+                    </div>    
+
+                    </div>
+
+
                 </div>
 
 

@@ -1,19 +1,21 @@
 package com.example.restro.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.restro.feign.feighInterface;
+import com.example.restro.models.OrderInfo;
+import com.example.restro.orderservice.OrderService;
 import com.example.restro.repositories.CustomerRepo;
 import com.example.restro.repositories.ItemRepo;
-import com.example.restro.orderservice.OrderService;
 
 
 @Controller
@@ -35,54 +37,72 @@ public class OrderController {
 
         
 
-        @PostMapping("/addtocart")
-        public String addItem(@RequestParam int itemId,Authentication auth) {
+        @PostMapping("/addtocart/{itemId}")
+        public String addItem(@PathVariable int itemId,Authentication auth) {
             String email = auth.getName();
+            
+            System.out.println("adding item"+itemId+" to cart of user "+email);
             int cid = crepo.findByEmail(email).getId();
-            String message= os.addToCart(cid, itemId);
-            return "categories";
+            String message = os.addToCart(cid, itemId);
+            System.out.println(message);
+            String categoryname=irepo.findById(itemId).get().getCategory();
+            return "redirect:/categories/"+categoryname;
             
         }
     
-        @PostMapping("/incrementitem")
-        public String incrementItem( @RequestParam int itemId, Authentication auth) {
+        @PostMapping("/incrementitem/{itemId}")
+        public String incrementItem( @PathVariable int itemId, Authentication auth) {
             String email = auth.getName();
             int cid = crepo.findByEmail(email).getId();
             String message = os.incrementItem(cid, itemId);
-            return "categories";
+            System.out.println("increment item= "+ message);
+            String categoryname=irepo.findById(itemId).get().getCategory();
+            return "redirect:/categories/"+categoryname;
         }
     
-        @PostMapping("/decrementitem")
-        public String decrementItem( @RequestParam int itemId, Authentication auth) {
+        @PostMapping("/decrementitem/{itemId}")
+        public String decrementItem( @PathVariable int itemId, Authentication auth) {
             String email = auth.getName();
             int cid = crepo.findByEmail(email).getId();
             String message = os.decrementItem(cid, itemId);
-            return "categories";
-        
+            System.out.println("message: "+message);
+            String categoryname=irepo.findById(itemId).get().getCategory();
+            return "redirect:/categories/"+categoryname;        
         }
     
-        @PostMapping("/deleteitem")
-        public String deleteItem( @RequestParam int itemId, Authentication auth) {
-            String email = auth.getName();
-            int cid = crepo.findByEmail(email).getId();
-            String message = os.deleteItem(cid, itemId);
-            return "categories";
-        }
+        // @PostMapping("/deleteitem")
+        // public String deleteItem( @RequestParam int itemId, Authentication auth) {
+        //     String email = auth.getName();
+        //     int cid = crepo.findByEmail(email).getId();
+        //     String message = os.deleteItem(cid, itemId);
+        //     return "categories";
+        // }
     
         @PostMapping("/placeorder")
         public String placeOrder( Authentication auth) {
             String email = auth.getName();
             int cid = crepo.findByEmail(email).getId();
             String message = os.placeOrder(cid);
-            return "categories";
+            System.out.println("order placed: "+ message);
+            return "redirect:/categories";
         }
 
         @GetMapping("/cart")
-        public String viewCart(Model model) {
+        public String getCart(Authentication auth, Model model) {
+            String email = auth.getName();
+            int cid = crepo.findByEmail(email).getId();
+            List<OrderInfo> cartItems = os.getCart(cid);
 
-
+            
+            int total=os.getTotal(cid);
+            model.addAttribute("OrderInfo", cartItems);
+            model.addAttribute("total",total);
             return "cart";
+            
         }
+
+       
+        
         
     
 }

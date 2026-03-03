@@ -28,18 +28,22 @@ public class JwtAuthFilter extends OncePerRequestFilter{
     private CustomUserDetailService customuds;
 
 
-    @Override
+   @Override
 protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException {
 
     String token = null;
     String useremail = null;
     String requestURI = request.getRequestURI();
-
-   
+    
+    // Log EVERY request
+    System.out.println("=== REQUEST RECEIVED: " + requestURI + " ===");
+    System.out.println("Method: " + request.getMethod());
 
     if (request.getCookies() != null) {
+        System.out.println("Cookies present: " + request.getCookies().length);
         for (Cookie cookie : request.getCookies()) {
+            System.out.println("  Cookie: " + cookie.getName() + " = " + cookie.getValue());
             if (cookie.getName().equals("jwt")) {
                 token = cookie.getValue();
                 System.out.println("JWT token found for: " + requestURI);
@@ -61,19 +65,19 @@ protected void doFilterInternal(HttpServletRequest request, HttpServletResponse 
                 UsernamePasswordAuthenticationToken auth = 
                     new UsernamePasswordAuthenticationToken(useremail, null, ud.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
+                System.out.println("Authentication set for: " + requestURI);
             } else {
                 System.out.println("Token validation failed for: " + requestURI);
             }
         } else {
-            System.out.println("No valid token for: " + requestURI);
+            System.out.println("No valid token or already authenticated for: " + requestURI);
         }
     } catch (Exception e) {
         System.out.println("JWT error for " + requestURI + ": " + e.getMessage());
     }
 
+    System.out.println("=== END REQUEST: " + requestURI + " ===\n");
     filterChain.doFilter(request, response);
-    
 }
-    
 
 }

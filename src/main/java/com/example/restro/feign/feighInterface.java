@@ -1,8 +1,13 @@
 package com.example.restro.feign;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.restro.models.OrderInfo;
 
 @FeignClient(name = "user-service", url = "http://localhost:8081")
 public interface feighInterface {
@@ -10,10 +15,10 @@ public interface feighInterface {
     @GetMapping("/orders/addtocart/{cid}/{itemid}/{price}")
     public String addtoCart(@PathVariable int cid, @PathVariable int itemid, @PathVariable double price) ;
 
-    @GetMapping("/orders/incrementitem/{cid}/{itemid}/{price}")
+    @PostMapping("/orders/incrementitem/{cid}/{itemid}/{price}")
     public String incrementItem(@PathVariable int cid, @PathVariable int itemid, @PathVariable double  price) ;
 
-    @GetMapping("/orders/decrementitem/{cid}/{itemid}/{price}")
+    @PostMapping("/orders/decrementitem/{cid}/{itemid}/{price}")
     public String decrementItem(@PathVariable int cid, @PathVariable int itemid, @PathVariable double price) ;
 
     @GetMapping("/orders/deleteitem/{cid}/{itemid}")
@@ -21,6 +26,15 @@ public interface feighInterface {
     
     @GetMapping("/orders/placeorder/{cid}")
     public String placeOrder(@PathVariable int cid) ;
+
+
+
+
+    @GetMapping("/orders/gettotal/{cid}")
+    public int getTotal(@PathVariable int cid);
+
+    @GetMapping("/orders/returncart/{cid}")
+    public List<OrderInfo> getCart(@PathVariable int cid);
     
 
 }
